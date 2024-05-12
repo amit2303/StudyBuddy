@@ -18,4 +18,3 @@ extension HexColor on Color {
   }
 }
 
-
