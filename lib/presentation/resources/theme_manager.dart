@@ -1,4 +1,4 @@
-import 'package:advance_flutter/presentation/font_manager.dart';
+import 'package:advance_flutter/presentation/resources/font_manager.dart';
 
 import'color_manager.dart';
 import 'package:flutter/material.dart';
