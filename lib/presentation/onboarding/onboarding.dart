@@ -4,6 +4,8 @@ import 'package:advance_flutter/presentation/resources/strings_manager.dart';
 import 'package:advance_flutter/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class OnBoardingView extends StatefulWidget {
   const OnBoardingView({super.key});
@@ -13,15 +15,19 @@ class OnBoardingView extends StatefulWidget {
 }
 
 class _OnBoardingViewState extends State<OnBoardingView> {
-    late final List<SliderObject> _list = _getSliderData();
+  late final List<SliderObject> _list = _getSliderData();
   PageController _pageController = PageController(initialPage: 0);
   int _currentIndex = 0;
 
   List<SliderObject> _getSliderData() => [
-    SliderObject(AppStrings.onBoardingSubTitle1, AppStrings.onBoardingSubTitle1, ImageAssets.onboardingLogo1),
-    SliderObject(AppStrings.onBoardingSubTitle2, AppStrings.onBoardingSubTitle2, ImageAssets.onboardingLogo2),
-    SliderObject(AppStrings.onBoardingSubTitle3, AppStrings.onBoardingSubTitle3, ImageAssets.onboardingLogo3),
-    SliderObject(AppStrings.onBoardingSubTitle4, AppStrings.onBoardingSubTitle4, ImageAssets.onboardingLogo4)
+        SliderObject(AppStrings.onBoardingSubTitle1,
+            AppStrings.onBoardingSubTitle1, ImageAssets.onboardingLogo1),
+        SliderObject(AppStrings.onBoardingSubTitle2,
+            AppStrings.onBoardingSubTitle2, ImageAssets.onboardingLogo2),
+        SliderObject(AppStrings.onBoardingSubTitle3,
+            AppStrings.onBoardingSubTitle3, ImageAssets.onboardingLogo3),
+        SliderObject(AppStrings.onBoardingSubTitle4,
+            AppStrings.onBoardingSubTitle4, ImageAssets.onboardingLogo4)
       ];
 
   @override
@@ -29,15 +35,14 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     return Scaffold(
       backgroundColor: ColorManager.white,
       appBar: AppBar(
+        backgroundColor: ColorManager.white,
         elevation: AppSize.s1_5,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: ColorManager.white,
           statusBarBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.dark,
         ),
-
-        ),
-
+      ),
       body: PageView.builder(
           controller: _pageController,
           itemCount: _list.length,
@@ -46,9 +51,22 @@ class _OnBoardingViewState extends State<OnBoardingView> {
               _currentIndex = index;
             });
           },
-          itemBuilder: (context,index){
-            // return OnBoardingPage
+          itemBuilder: (context, index) {
+            return OnBoardingPage(_list[index]);
           }),
+      bottomSheet: Container(
+        color: ColorManager.white,
+        height: AppSize.s100,
+        child: Column(
+          children: [
+            Align(
+                alignment: Alignment.centerRight,
+                child:
+                    TextButton(onPressed: () {}, child: Text(AppStrings.skip,textAlign: TextAlign.end,)))
+                //add layout for indicators and arrows
+          ],
+        ),
+      ),
     );
   }
 }
@@ -82,11 +100,13 @@ class OnBoardingPage extends StatelessWidget {
         ),
         SizedBox(
           height: AppSize.s60,
-        )
+        ),
+        SvgPicture.asset(_sliderObject.image),
       ],
     );
   }
 }
+
 class SliderObject {
   String title;
   String subTitle;
