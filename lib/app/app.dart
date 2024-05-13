@@ -2,6 +2,7 @@ import 'package:advance_flutter/presentation/resources/routes_manager.dart';
 import 'package:advance_flutter/presentation/resources/theme_manager.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MyApp extends StatefulWidget {
   // const MyApp({super.key});//default constructor
 
