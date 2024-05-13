@@ -17,6 +17,7 @@ class OnBoardingView extends StatefulWidget {
 class _OnBoardingViewState extends State<OnBoardingView> {
   late final List<SliderObject> _list = _getSliderData();
   PageController _pageController = PageController(initialPage: 0);
+
   int _currentIndex = 0;
 
   List<SliderObject> _getSliderData() => [
@@ -62,14 +63,72 @@ class _OnBoardingViewState extends State<OnBoardingView> {
             Align(
                 alignment: Alignment.centerRight,
                 child:
-                    TextButton(onPressed: () {}, child: Text(AppStrings.skip,textAlign: TextAlign.end,)))
+                    TextButton(onPressed: () {}, child: Text(AppStrings.skip,textAlign: TextAlign.end,))),
                 //add layout for indicators and arrows
+              _getBottomSheetWidget(),
           ],
         ),
       ),
     );
   }
+
+
+
+ Widget _getBottomSheetWidget() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // left arrow
+        Padding(padding: EdgeInsets.all(AppPadding.p14),
+          child: GestureDetector(
+            child: SizedBox(
+              height: AppSize.s20,
+              width: AppSize.s20,
+              child: SvgPicture.asset(ImageAssets.leftArrowIc),
+            ),
+            onTap: () {
+              // go to next slide
+            },
+          ),),
+
+
+        // circles indicator
+        Row(
+          children: [
+            for(int i = 0; i < _list.length; i++)
+              Padding(padding: EdgeInsets.all(AppPadding.p8),
+                child: _getProperCircle(i),)
+          ],
+        ),
+
+        // right arrow
+        Padding(padding: EdgeInsets.all(AppPadding.p14),
+          child: GestureDetector(
+            child: SizedBox(
+              height: AppSize.s20,
+              width: AppSize.s20,
+              child: SvgPicture.asset(ImageAssets.rightarrowIc),
+            ),
+            onTap: () {
+              // go to next slide
+            },
+          ),)
+      ],
+    );
+  }
+
+  Widget _getProperCircle(int index){
+    if(index == _currentIndex){
+      return SvgPicture.asset(ImageAssets.hollowCircleIc); // selected slider
+    }else{
+      return SvgPicture.asset(ImageAssets.solidCircleIc); // unselected slider
+    }
+  }
 }
+
+
+
+
 
 class OnBoardingPage extends StatelessWidget {
   SliderObject _sliderObject;
