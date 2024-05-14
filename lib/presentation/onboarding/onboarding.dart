@@ -1,6 +1,7 @@
 import 'package:advance_flutter/presentation/resources/assets_manager.dart';
 import 'package:advance_flutter/presentation/resources/color_manager.dart';
 import 'package:advance_flutter/presentation/resources/strings_manager.dart';
+import 'package:advance_flutter/presentation/resources/theme_manager.dart';
 import 'package:advance_flutter/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,8 +37,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     return Scaffold(
       backgroundColor: ColorManager.white,
       appBar: AppBar(
-        backgroundColor: ColorManager.white,
-        elevation: AppSize.s1_5,
+        backgroundColor: ColorManager.primary,
+        elevation: AppSize.s0,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: ColorManager.white,
           statusBarBrightness: Brightness.dark,
@@ -63,7 +64,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
             Align(
                 alignment: Alignment.centerRight,
                 child:
-                    TextButton(onPressed: () {}, child: Text(AppStrings.skip,textAlign: TextAlign.end,))),
+                    TextButton(onPressed: () {}, child: Text(AppStrings.skip,textAlign: TextAlign.end,style: Theme.of(context).textTheme.titleSmall))),
                 //add layout for indicators and arrows
               _getBottomSheetWidget(),
           ],
@@ -75,45 +76,51 @@ class _OnBoardingViewState extends State<OnBoardingView> {
 
 
  Widget _getBottomSheetWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // left arrow
-        Padding(padding: EdgeInsets.all(AppPadding.p14),
-          child: GestureDetector(
-            child: SizedBox(
-              height: AppSize.s20,
-              width: AppSize.s20,
-              child: SvgPicture.asset(ImageAssets.leftArrowIc),
-            ),
-            onTap: () {
-              // go to next slide
-            },
-          ),),
-
-
-        // circles indicator
-        Row(
+    return Expanded(
+      child: Container(
+      
+        color: ColorManager.primary,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            for(int i = 0; i < _list.length; i++)
-              Padding(padding: EdgeInsets.all(AppPadding.p8),
-                child: _getProperCircle(i),)
+            // left arrow
+            Padding(padding: EdgeInsets.all(AppPadding.p14),
+              child: GestureDetector(
+                child: SizedBox(
+                  height: AppSize.s20,
+                  width: AppSize.s20,
+                  child: SvgPicture.asset(ImageAssets.leftArrowIc),
+                ),
+                onTap: () {
+                  // go to next slide
+                },
+              ),),
+        
+        
+            // circles indicator
+            Row(
+              children: [
+                for(int i = 0; i < _list.length; i++)
+                  Padding(padding: EdgeInsets.all(AppPadding.p8),
+                    child: _getProperCircle(i),)
+              ],
+            ),
+        
+            // right arrow
+            Padding(padding: EdgeInsets.all(AppPadding.p14),
+              child: GestureDetector(
+                child: SizedBox(
+                  height: AppSize.s20,
+                  width: AppSize.s20,
+                  child: SvgPicture.asset(ImageAssets.rightarrowIc),
+                ),
+                onTap: () {
+                  // go to next slide
+                },
+              ),)
           ],
         ),
-
-        // right arrow
-        Padding(padding: EdgeInsets.all(AppPadding.p14),
-          child: GestureDetector(
-            child: SizedBox(
-              height: AppSize.s20,
-              width: AppSize.s20,
-              child: SvgPicture.asset(ImageAssets.rightarrowIc),
-            ),
-            onTap: () {
-              // go to next slide
-            },
-          ),)
-      ],
+      ),
     );
   }
 
@@ -165,6 +172,8 @@ class OnBoardingPage extends StatelessWidget {
     );
   }
 }
+
+
 
 class SliderObject {
   String title;

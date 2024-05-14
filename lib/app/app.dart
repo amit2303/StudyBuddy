@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 
   int appState =0;  //accessing this using instance
 
-  factory MyApp() {
+  factory  MyApp() {
     return instance;
   } //factory for the class instance 
 
