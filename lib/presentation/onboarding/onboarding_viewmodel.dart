@@ -1,7 +1,10 @@
+import 'dart:async';
+import 'package:advance_flutter/domain/model.dart';
 import 'package:advance_flutter/presentation/base/baseviewmodel.dart';
 
 class OnBoardingViewModel implements BaseViewModel, OnBoardingViewModelInputs, OnBoardingViewModelOutputs{
-//implement stream controllers? so that our view model can intract with our view
+//stream controller
+final StreamController _streamController =StreamController<SliderViewObject>();
   //inputs
   @override
   void dispose() {
@@ -28,7 +31,11 @@ class OnBoardingViewModel implements BaseViewModel, OnBoardingViewModelInputs, O
     // TODO: implement onPageChanged
   }
 
+
 }
+
+
+
 
 
 
@@ -38,9 +45,21 @@ abstract class OnBoardingViewModelInputs {
   void goNext(); // when user clicks on right arrow or swipe left.
   void goPrevious(); // when user clicks on left arrow or swipe right.
   void onPageChanged(int index);
+
+  Sink get inputSliderViewObject; //this is the way to add data to the stream.. stream input
 }
 
 // outputs mean data or results that will be sent from our view model to our view
 abstract class OnBoardingViewModelOutputs {
-  // will be implement it later
+
+  Stream<SliderViewObject> get outputSliderViewObject;
+}
+
+
+class SliderViewObject {
+  SliderObject sliderObject;
+  int noOfSlides;
+  int currentIndex;
+
+  SliderViewObject(this.sliderObject,this.noOfSlides,this.currentIndex);
 }
