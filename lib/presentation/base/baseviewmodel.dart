@@ -1,12 +1,10 @@
-abstract class Base{
-  //shared variables and functions that will be used through any view model.
+abstract class BaseViewModel implements BaseViewModelInputs, BaseViewModelOutputs{
+  // shared variables and functions that will be used through any view model.
 }
 
-abstract class BaseViewModelInput{
-    void start(); //will be called while init. of view model
-    void dispose();//will be called when viewmodle dies.
+abstract class BaseViewModelInputs {
+  void start(); // will be called while init. of view model
+  void dispose(); // will be called when viewmodel dies.
 }
 
-abstract class BaseViewModelOutput{
-  
-}
+abstract class BaseViewModelOutputs {}
