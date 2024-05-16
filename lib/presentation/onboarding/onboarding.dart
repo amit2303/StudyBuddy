@@ -1,9 +1,11 @@
+import 'package:advance_flutter/presentation/onboarding/onboarding_viewmodel.dart';
 import 'package:advance_flutter/presentation/resources/assets_manager.dart';
 import 'package:advance_flutter/presentation/resources/color_manager.dart';
 import 'package:advance_flutter/presentation/resources/routes_manager.dart';
 import 'package:advance_flutter/presentation/resources/strings_manager.dart';
 import 'package:advance_flutter/presentation/resources/theme_manager.dart';
 import 'package:advance_flutter/presentation/resources/values_manager.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -22,13 +24,27 @@ class _OnBoardingViewState extends State<OnBoardingView> {
 
   PageController _pageController = PageController(initialPage: 0);
 
+  OnBoardingViewModel _viewModel =OnBoardingViewModel();
 
+_bind(){
+  _viewModel.start();
+}
 
+  @override
+  void initState() {
+    _bind();
+    super.initState();
+    
+  }
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _getContentWidget();
+  }
+
+Widget _getContentWidget(){
+  return Scaffold(
       backgroundColor: ColorManager.white,
       appBar: AppBar(
         backgroundColor: ColorManager.primary,
@@ -68,7 +84,6 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       ),
     );
   }
-
 
 
  Widget _getBottomSheetWidget() {
@@ -122,13 +137,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     );
   }
 
-    int _getPreviousIndex() {
 
-  }
-
-  int _getNextIndex() {
-    
-  }
 
 
   Widget _getProperCircle(int index){
@@ -142,6 +151,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
 
   @override
   void dispose() {
+    _viewModel.dispose();
     // TODO: implement dispose
     super.dispose();
   }
