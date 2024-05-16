@@ -40,11 +40,19 @@ _bind(){
 
   @override
   Widget build(BuildContext context) {
-    return _getContentWidget();
+    return StreamBuilder<SliderViewObject>(stream: _viewModel.outputSliderViewObject, builder: (context,snapShot){
+      return _getContentWidget(snapShot.data);
+    });
   }
 
-Widget _getContentWidget(){
-  return Scaffold(
+Widget _getContentWidget(SliderViewObject? sliderViewObject){
+
+  if(sliderViewObject==null){
+    return Container();
+  }
+  else{
+    return
+    Scaffold(
       backgroundColor: ColorManager.white,
       appBar: AppBar(
         backgroundColor: ColorManager.primary,
@@ -57,14 +65,12 @@ Widget _getContentWidget(){
       ),
       body: PageView.builder(
           controller: _pageController,
-          itemCount: _list.length,
+          itemCount: sliderViewObject.noOfSlides,
           onPageChanged: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
+            _viewModel.onPageChanged(index);
           },
           itemBuilder: (context, index) {
-            return OnBoardingPage(_list[index]);
+            return OnBoardingPage(sliderViewObject.sliderObject);
           }),
       bottomSheet: Container(
         color: ColorManager.white,
@@ -78,15 +84,16 @@ Widget _getContentWidget(){
                       Navigator.pushReplacementNamed(context, Routes.loginRoute);
                     }, child: Text(AppStrings.skip,textAlign: TextAlign.end,style: Theme.of(context).textTheme.titleSmall))),
                 //add layout for indicators and arrows
-              _getBottomSheetWidget(),
+              _getBottomSheetWidget(sliderViewObject),
           ],
         ),
       ),
     );
   }
+}
 
 
- Widget _getBottomSheetWidget() {
+ Widget _getBottomSheetWidget(SliderViewObject sliderViewObject) {
     return Expanded(
       child: Container(
       
@@ -104,7 +111,7 @@ Widget _getContentWidget(){
                 ),
                 onTap: () {
                   // go to next slide
-                  _pageController.animateToPage(_getPreviousIndex(), duration:Duration(microseconds:  DurationConstants.d300 ), curve: Curves.bounceIn);
+                  _pageController.animateToPage(_viewModel.goPrevious(), duration:Duration(microseconds:  DurationConstants.d300 ), curve: Curves.bounceIn);
                 },
               ),),
         
@@ -112,9 +119,9 @@ Widget _getContentWidget(){
             // circles indicator
             Row(
               children: [
-                for(int i = 0; i < _list.length; i++)
+                for(int i = 0; i < sliderViewObject.noOfSlides; i++)
                   Padding(padding: EdgeInsets.all(AppPadding.p8),
-                    child: _getProperCircle(i),)
+                    child: _getProperCircle(i,sliderViewObject.currentIndex),)
               ],
             ),
         
@@ -128,7 +135,7 @@ Widget _getContentWidget(){
                 ),
                 onTap: () {
                   // go to next slide
-                 _pageController.animateToPage(_getNextIndex(), duration:Duration(microseconds:  DurationConstants.d300 ), curve: Curves.bounceIn);
+                 _pageController.animateToPage(_viewModel.goNext(), duration:Duration(microseconds:  DurationConstants.d300 ), curve: Curves.bounceIn);
                 },
               ),)
           ],
@@ -140,7 +147,7 @@ Widget _getContentWidget(){
 
 
 
-  Widget _getProperCircle(int index){
+  Widget _getProperCircle(int index,int _currentIndex){
     if(index == _currentIndex){
       return SvgPicture.asset(ImageAssets.hollowCircleIc); // selected slider
     }else{
