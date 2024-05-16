@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:advance_flutter/domain/model.dart';
 
+
 class OnBoardingView extends StatefulWidget {
   const OnBoardingView({super.key});
 
@@ -122,20 +123,11 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   }
 
     int _getPreviousIndex() {
-    int previousIndex = _currentIndex--; // -1
-    if (previousIndex == -1) {
-      _currentIndex =
-          _list.length - 1; // infinite loop to go to the length of slider list
-    }
-    return _currentIndex;
+
   }
 
   int _getNextIndex() {
-    int nextIndex = _currentIndex++; // +1
-    if (nextIndex >= _list.length) {
-      _currentIndex = 0; // infinite loop to go to first item inside the slider
-    }
-    return _currentIndex;
+    
   }
 
 
